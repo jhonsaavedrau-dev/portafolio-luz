@@ -1,8 +1,11 @@
 {
+  "id": "./",
   "name": "Portafolio · Análisis de Datos",
-  "short_name": "Portafolio",
+  "short_name": "Mi portafolio",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "lang": "es",
   "background_color": "#F3F5FA",
   "theme_color": "#F3F5FA",
   "icons": [
@@ -15,6 +18,12 @@
       "src": "icono-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "icono-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
