@@ -187,35 +187,76 @@ pre.py .et{color:#9FA3D6;font-family:var(--cuerpo);font-size:12px;font-weight:60
 .marcador .pista i{display:block;height:100%;background:var(--c);transition:width .4s}
 
 /* Juegos */
-.juego{background:var(--papel);border-radius:var(--radio);box-shadow:var(--sombra);padding:18px;margin-top:14px}
-.juego h3{font-size:19px;font-weight:600;display:flex;gap:8px;align-items:center}
-.juego h3 i{color:var(--c)}
-.tablero{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:14px}
-.ficha-j{border:0;height:84px;border-radius:14px;background:var(--c);color:#fff;font-weight:600;font-size:14px;padding:8px;transition:transform .25s,background .2s;position:relative}
-.ficha-j .tx{opacity:0;transition:opacity .2s}
-.ficha-j::after{content:"?";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:30px;font-weight:800;transition:opacity .2s}
-.ficha-j.vista{background:var(--cs);color:var(--tinta);transform:rotateY(0)}
-.ficha-j.vista .tx{opacity:1}
-.ficha-j.vista::after{opacity:0}
-.ficha-j.par{background:#E3F3EA;color:#1F6B42;animation:pop .4s both}
-.ficha-j.par .tx{opacity:1}.ficha-j.par::after{opacity:0}
-@keyframes pop{50%{transform:scale(1.07)}}
-.item-c{border:2px solid var(--linea);background:var(--papel);border-radius:14px;padding:10px 14px;font-size:15px;font-weight:600}
-.item-c[aria-pressed=true]{border-color:var(--c);background:var(--cs)}
-.cubetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:12px}
-.cubeta{border:2px dashed var(--c);border-radius:14px;background:transparent;min-height:90px;padding:10px;text-align:left;display:flex;flex-direction:column;gap:6px}
-.cubeta b{font-size:14px;color:var(--c)}
-.cubeta .puesto{font-size:13px;background:#E3F3EA;color:#1F6B42;border-radius:8px;padding:3px 8px;animation:pop .35s both}
-.sueltos{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.sacudir{animation:sacude .35s}
-@keyframes sacude{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.menu-j{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
+.jc{border:0;border-radius:22px;padding:18px;text-align:left;color:#fff;background:var(--g);position:relative;overflow:hidden;min-height:150px;display:flex;flex-direction:column;gap:4px;transition:transform .18s}
+.jc:hover{transform:translateY(-3px) rotate(-.5deg)}
+.jc::after{content:"";position:absolute;right:-26px;bottom:-34px;width:120px;height:120px;border-radius:36px;background:rgba(255,255,255,.14);transform:rotate(22deg)}
+.jc i.big{font-size:34px;margin-bottom:6px}
+.jc b{font-family:var(--display);font-size:21px;font-weight:800;line-height:1.1}
+.jc span{font-size:14px;opacity:.95;line-height:1.35}
+.jc .rec{margin-top:auto;font-size:13px;font-weight:600;background:rgba(0,0,0,.18);border-radius:999px;padding:3px 10px;align-self:flex-start;position:relative;z-index:1}
+.arena{background:var(--papel);border-radius:var(--radio);box-shadow:var(--sombra);padding:16px;margin-top:14px;position:relative;overflow:hidden;animation:entra .3s both}
+.hud{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hud .pts{font-family:var(--display);font-size:28px;font-weight:800;color:var(--c);min-width:70px}
+.hud .vidas{font-size:22px;color:#C2414E;letter-spacing:2px}
+.hud .vidas .ida{opacity:.18}
+.hud .combo{font-weight:800;font-family:var(--display);color:#fff;background:#E07A2F;border-radius:999px;padding:2px 12px;font-size:16px}
+.hud .salir{margin-left:auto}
+.tiempo{height:10px;border-radius:5px;background:var(--fondo);overflow:hidden;margin:12px 0 4px}
+.tiempo i{display:block;height:100%;background:var(--c);border-radius:5px;transition:width .2s linear}
+.tiempo.poco i{background:#C2414E}
+.preg-j{font-size:19px;font-weight:600;margin:14px 2px;line-height:1.35;min-height:52px}
+.flota{position:absolute;font-family:var(--display);font-weight:800;font-size:26px;pointer-events:none;animation:sube .9s ease-out forwards;z-index:5}
+@keyframes sube{to{transform:translateY(-60px);opacity:0}}
+.fin-j{text-align:center;padding:10px 6px 4px}
+.fin-j .grande{font-family:var(--display);font-size:60px;font-weight:800;color:var(--c);line-height:1}
+.fin-j .estrellas{font-size:40px;color:#F2B705;margin:6px 0}
+.fin-j .estrellas .no{color:#E1E4EF}
+.fin-j .acciones{justify-content:center}
+.nuevo-rec{display:inline-block;background:#FFF0C2;color:#7A5A00;border-radius:999px;padding:4px 12px;font-weight:700;font-size:14px;margin-top:8px;animation:pop .5s both}
+/* Verdadero o falso */
+.mazo{position:relative;height:300px;margin-top:14px;touch-action:pan-y}
+.vf{position:absolute;inset:0;border-radius:24px;background:var(--c);color:#fff;padding:26px 22px;display:flex;flex-direction:column;justify-content:center;gap:12px;box-shadow:0 14px 34px rgba(31,35,64,.2);user-select:none;cursor:grab;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s}
+.vf.atras{transform:scale(.94) translateY(14px);opacity:.55;background:var(--cs);color:transparent;box-shadow:none}
+.vf .a{font-family:var(--display);font-size:28px;font-weight:800;line-height:1.1}
+.vf .flecha{font-size:15px;opacity:.85;font-weight:600}
+.vf .b{font-size:20px;font-weight:600;line-height:1.3}
+.vf .sello-v{position:absolute;top:18px;padding:4px 12px;border:3px solid #fff;border-radius:10px;font-weight:800;font-family:var(--display);font-size:20px;opacity:0}
+.vf .sv{right:18px;transform:rotate(12deg)}.vf .sf{left:18px;transform:rotate(-12deg)}
+.botones-vf{display:flex;gap:14px;justify-content:center;margin-top:16px}
+.botones-vf button{width:72px;height:72px;border-radius:50%;border:0;font-size:32px;color:#fff;display:grid;place-items:center;box-shadow:var(--sombra);transition:transform .12s}
+.botones-vf button:active{transform:scale(.9)}
+.botones-vf .no{background:#C2414E}.botones-vf .si{background:#2E8B57}
+.nota-vf{min-height:44px;text-align:center;font-size:15px;margin-top:10px;color:var(--suave)}
+/* Lluvia */
+.cielo{position:relative;height:380px;border-radius:18px;background:linear-gradient(var(--cs),var(--papel));overflow:hidden;margin-top:12px}
+.gota{position:absolute;left:0;top:0;max-width:62%;background:var(--papel);border:2px solid var(--linea);border-radius:14px;padding:8px 12px;font-size:14.5px;font-weight:600;box-shadow:var(--sombra);will-change:transform}
+.gota.activa{border-color:var(--c);box-shadow:0 0 0 4px var(--cs),var(--sombra)}
+.gota.bien{background:#E3F3EA;border-color:#2E8B57;transition:opacity .4s,transform .4s;opacity:0}
+.gota.mal{background:#FCEDEF;border-color:#C2414E}
+.suelo{position:absolute;left:0;right:0;bottom:0;height:6px;background:#C2414E;opacity:.25}
+.cubos{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px;margin-top:12px}
+.cubos button{border:0;border-radius:14px;background:var(--c);color:#fff;font-weight:700;font-size:15px;padding:14px 8px;transition:transform .1s}
+.cubos button:active{transform:scale(.94)}
+/* Memoria */
+.tablero{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px;margin-top:14px;perspective:900px}
+.ficha-j{border:0;height:96px;border-radius:16px;background:transparent;padding:0;position:relative;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.ficha-j .cara{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center;padding:8px;font-weight:600;font-size:14px;text-align:center;line-height:1.25}
+.ficha-j .tapa{background:var(--c);color:#fff;font-family:var(--display);font-size:32px;font-weight:800}
+.ficha-j .frente{background:var(--cs);color:var(--tinta);transform:rotateY(180deg)}
+.ficha-j.vista,.ficha-j.par{transform:rotateY(180deg)}
+.ficha-j.par .frente{background:#E3F3EA;color:#1F6B42}
+.ficha-j.par{animation:none}
+/* Ordenar */
 .orden-l{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-.paso-o{border:2px solid var(--linea);background:var(--papel);border-radius:14px;padding:12px 14px;text-align:left;font-size:15px;font-weight:600;display:flex;gap:10px;align-items:center}
+.paso-o{border:2px solid var(--linea);background:var(--papel);border-radius:14px;padding:12px 14px;text-align:left;font-size:15px;font-weight:600;display:flex;gap:10px;align-items:center;transition:transform .2s}
 .paso-o .nn{width:28px;height:28px;border-radius:9px;background:var(--fondo);display:grid;place-items:center;font-size:13px;flex:none}
 .paso-o.hecho{border-color:var(--ok);background:#EEF7F1}
 .paso-o.hecho .nn{background:var(--ok);color:#fff}
-.gana{display:flex;gap:12px;align-items:center;background:#FFF7DB;border-radius:16px;padding:14px;margin-top:14px;animation:entra .3s both}
-.gana i{font-size:30px;color:#C08A00}
+.sacudir{animation:sacude .35s}
+@keyframes sacude{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes pop{50%{transform:scale(1.08)}}
+.sonido{border:0;background:var(--fondo);border-radius:12px;height:40px;padding:0 12px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;color:var(--suave)}
 
 /* Video */
 .video{background:#000;border-radius:var(--radio);overflow:hidden;margin-top:14px;aspect-ratio:16/9}
@@ -340,7 +381,7 @@ nav.abajo button[aria-current=page]{background:#fff;color:var(--tinta)}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const SAL = "A807s3xsZKVRAqBmQeFJyg==", ITER = 250000, ACTUALIZADO = "2026-10-18T1823";
+const SAL = "A807s3xsZKVRAqBmQeFJyg==", ITER = 250000, ACTUALIZADO = "2026-10-18T1834";
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -449,6 +490,7 @@ function iniciar() { $('#entrada').classList.add('oculto'); $('#app').classList.
 function pintar(html) { $('#app').innerHTML = `<div class="vista">${html}</div>`; window.scrollTo(0, 0); animarBarras(); }
 function marcarNav(v) { $$('nav.abajo button').forEach(b => b.dataset.ir === v ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current')); }
 function ir(v, extra) {
+  if (typeof terminarPartida === 'function') terminarPartida();
   if ($('#hoja').classList.contains('on')) cerrarHoja(true);
   VISTA = v; marcarNav(v);
   ({inicio: vInicio, documentos: vDocumentos, estudiar: vEstudiar, examen: vExamen, tema: vTema}[v])(extra);
@@ -568,7 +610,7 @@ function pintarTab() {
   if (TAB === 'aprende') c.innerHTML = htmlLeccion(e, t);
   if (TAB === 'video') c.innerHTML = htmlVideo(t);
   if (TAB === 'practica') c.innerHTML = htmlPractica(e, t);
-  if (TAB === 'juega') { c.innerHTML = htmlJuegos(e, t); iniciarJuegos(e); }
+  if (TAB === 'juega') { terminarPartida(); c.innerHTML = htmlJuegos(e); }
   if (TAB === 'trabajos') c.innerHTML = actsDe(TEMA).map(tarjetaAct).join('') || '<div class="vacio">Este tema todavía no tiene trabajos.</div>';
 }
 
@@ -623,64 +665,260 @@ function feedback(art, ok, x, extra = '') {
 function leerNumero(s) { s = s.trim().replace(/\s/g, '').replace('%', ''); if (/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s = s.replace(/\./g, ''); return parseFloat(s.replace(',', '.')); }
 
 /* Juegos */
-function htmlJuegos(e, t) {
-  const j = e.juegos || {}; let h = '';
-  if (j.parejas) h += `<section class="juego" id="jParejas"><h3><i class="ti ti-cards"></i>Encuentra las parejas</h3><p class="sub">Voltea dos fichas: un concepto y su significado.</p><div class="tablero"></div><div class="res"></div>
-    <button class="boton claro peq" data-reinicia="parejas" style="margin-top:12px"><i class="ti ti-refresh"></i>Otra vez</button></section>`;
-  if (j.clasificar) h += `<section class="juego" id="jClasificar"><h3><i class="ti ti-category"></i>${esc(j.clasificar.titulo)}</h3><p class="sub">Toca una tarjeta y luego el grupo donde va.</p>
-    <div class="sueltos"></div><div class="cubetas"></div><div class="res"></div>
-    <button class="boton claro peq" data-reinicia="clasificar" style="margin-top:12px"><i class="ti ti-refresh"></i>Otra vez</button></section>`;
-  if (j.ordenar) h += `<section class="juego" id="jOrdenar"><h3><i class="ti ti-arrows-sort"></i>${esc(j.ordenar.titulo)}</h3><p class="sub">Toca los pasos en el orden correcto.</p><div class="orden-l"></div><div class="res"></div>
-    <button class="boton claro peq" data-reinicia="ordenar" style="margin-top:12px"><i class="ti ti-refresh"></i>Otra vez</button></section>`;
-  return h || '<div class="vacio">Este tema todavía no tiene juegos.</div>';
-}
 const mezclar = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const ganar = (cont, txt) => { cont.querySelector('.res').innerHTML = `<div class="gana"><i class="ti ti-trophy"></i><div><b>¡Lo lograste!</b><br><span class="sub">${txt}</span></div></div>`;
-  const r = cont.getBoundingClientRect(); confeti(r.left + r.width / 2, r.top + 40); };
-function iniciarJuegos(e, solo) {
-  const j = e.juegos || {};
-  if (j.parejas && (!solo || solo === 'parejas')) {
-    const cont = $('#jParejas'); let abiertas = [], intentos = 0, hechas = 0;
-    const fichas = mezclar(j.parejas.flatMap((p, i) => [{tx: p[0], i}, {tx: p[1], i}]));
-    cont.querySelector('.res').innerHTML = '';
-    cont.querySelector('.tablero').innerHTML = fichas.map((f, k) => `<button class="ficha-j" data-par="${f.i}" data-k="${k}" aria-label="Ficha oculta"><span class="tx">${esc(f.tx)}</span></button>`).join('');
-    cont.querySelector('.tablero').onclick = ev => {
-      const b = ev.target.closest('.ficha-j'); if (!b || b.classList.contains('vista') || b.classList.contains('par') || abiertas.length === 2) return;
-      b.classList.add('vista'); b.setAttribute('aria-label', b.textContent); abiertas.push(b);
-      if (abiertas.length === 2) {
-        intentos++;
-        const [x, y] = abiertas;
-        if (x.dataset.par === y.dataset.par) { setTimeout(() => { x.classList.replace('vista', 'par'); y.classList.replace('vista', 'par'); abiertas = []; hechas++;
-          if (hechas === j.parejas.length) ganar(cont, `Encontraste las ${hechas} parejas en ${intentos} intentos.`); }, 350); }
-        else setTimeout(() => { x.classList.remove('vista'); y.classList.remove('vista'); abiertas = []; }, 950);
-      }
-    };
+let SONIDO = leer('sonido') !== '0', AC = null;
+function tono(tipo) {
+  if (!SONIDO) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    const notas = {bien: [660, 880], mal: [220, 160], combo: [660, 880, 1100], fin: [523, 659, 784, 1046], tic: [1200]}[tipo];
+    notas.forEach((f, i) => {
+      const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime + i * .09;
+      o.type = tipo === 'mal' ? 'sawtooth' : 'triangle'; o.frequency.value = f;
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(tipo === 'tic' ? .04 : .12, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + .16);
+      o.connect(g).connect(AC.destination); o.start(t); o.stop(t + .18);
+    });
+  } catch (e) {}
+}
+function flotar(cont, txt, x, y, color) {
+  const f = document.createElement('div'); f.className = 'flota'; f.textContent = txt; f.style.left = x + 'px'; f.style.top = y + 'px'; f.style.color = color;
+  cont.appendChild(f); setTimeout(() => f.remove(), 950);
+}
+const recKey = g => `juego:${TEMA}:${g}`;
+function guardarRecord(g, v, mayorMejor = true) {
+  const viejo = leer(recKey(g)); const mejor = viejo === null || (mayorMejor ? v > +viejo : v < +viejo);
+  if (mejor) guardar(recKey(g), v); return mejor;
+}
+const JUEGOS = [
+  {id: 'reloj', ic: 'ti-bolt', titulo: 'Contrarreloj', txt: '60 segundos, 3 vidas. Encadena aciertos para multiplicar los puntos.', g: '#E0612F', hay: e => banco(e).length >= 4, rec: v => `Récord: ${v} pts`},
+  {id: 'vf', ic: 'ti-hand-finger', titulo: '¿Verdadero o falso?', txt: 'Desliza la tarjeta: a la derecha si es verdad, a la izquierda si no.', g: '#7A4FC0', hay: e => afirmaciones(e).length >= 4, rec: v => `Récord: ${v} aciertos`},
+  {id: 'lluvia', ic: 'ti-cloud-rain', titulo: 'Lluvia de conceptos', txt: 'Caen tarjetas: mándalas a su grupo antes de que toquen el suelo.', g: '#1F7FA8', hay: e => !!e.juegos?.clasificar, rec: v => `Récord: ${v} pts`},
+  {id: 'memoria', ic: 'ti-cards', titulo: 'Memoria', txt: 'Voltea las fichas y une cada concepto con su significado.', g: '#2E8B57', hay: e => !!e.juegos?.parejas, rec: v => `Mejor: ${v} movimientos`},
+  {id: 'ordenar', ic: 'ti-arrows-sort', titulo: 'Ordena los pasos', txt: 'Toca los pasos en orden lo más rápido que puedas.', g: '#B5652A', hay: e => !!e.juegos?.ordenar, rec: v => `Mejor: ${v} s`},
+];
+function banco(e) {
+  return [...e.examen.map(q => ({q: q.q, ops: q.opciones, ok: q.correcta, porque: q.porque})),
+    ...e.practica.filter(p => p.tipo === 'opcion').map(p => ({q: p.q, ops: p.opciones, ok: p.correcta, porque: p.pasos[0]}))];
+}
+function afirmaciones(e) {
+  const out = [], j = e.juegos || {};
+  const P = j.parejas || [];
+  P.forEach(([a, b], i) => {
+    out.push({a, b, v: true});
+    const otro = P[(i + 1 + (i % Math.max(1, P.length - 1))) % P.length];
+    if (P.length > 1 && otro[1] !== b) out.push({a, b: otro[1], v: false, real: b});
+  });
+  const C = j.clasificar;
+  if (C) C.items.forEach(([tx, g], i) => {
+    if (i % 2) out.push({a: tx, b: g, v: true});
+    else { const otro = C.grupos.find(x => x !== g && C.grupos.indexOf(x) === (C.grupos.indexOf(g) + 1) % C.grupos.length); out.push({a: tx, b: otro, v: false, real: g}); }
+  });
+  return out;
+}
+
+function htmlJuegos(e) {
+  const lista = JUEGOS.filter(j => j.hay(e));
+  if (!lista.length) return '<div class="vacio">Este tema todavía no tiene juegos.</div>';
+  return `<div class="menu-j">${lista.map(j => { const r = leer(recKey(j.id));
+    return `<button class="jc" style="--g:${j.g}" data-juego="${j.id}"><i class="ti ${j.ic} big"></i><b>${j.titulo}</b><span>${j.txt}</span>
+      <span class="rec">${r !== null ? j.rec(r) : '¡Juega por primera vez!'}</span></button>`; }).join('')}</div>
+    <p class="sub" style="margin:12px 4px;display:flex;align-items:center;gap:8px"><button class="sonido" data-sonido><i class="ti ${SONIDO ? 'ti-volume' : 'ti-volume-off'}"></i>${SONIDO ? 'Sonido activado' : 'Sonido apagado'}</button></p>`;
+}
+let PARTIDA = null;
+function terminarPartida() { if (PARTIDA?.parar) PARTIDA.parar(); PARTIDA = null; }
+function hud(extra = '') {
+  return `<div class="hud"><span class="pts" id="jPts">0</span>${extra}<button class="boton claro peq salir" data-salirjuego><i class="ti ti-x"></i>Salir</button></div>`;
+}
+const corazones = n => `<span class="vidas" id="jVidas">${[0, 1, 2].map(i => `<i class="ti ti-heart${i < n ? '' : ' ida'}"></i>`).join('')}</span>`;
+function pantallaFin(c, {titulo, grande, sub, estrellas, nuevo, juego}) {
+  tono('fin');
+  c.innerHTML = `<div class="arena"><div class="fin-j"><div class="eyebrow">${titulo}</div><div class="grande">${grande}</div>
+    ${estrellas !== undefined ? `<div class="estrellas">${[1, 2, 3].map(i => `<i class="ti ti-star${i <= estrellas ? '' : ' no'}"></i>`).join('')}</div>` : ''}
+    <p class="bajada" style="margin-top:6px">${sub}</p>${nuevo ? '<div class="nuevo-rec"><i class="ti ti-trophy"></i> ¡Nuevo récord!</div>' : ''}
+    <div class="acciones"><button class="boton c" data-juego="${juego}"><i class="ti ti-refresh"></i>Jugar otra vez</button>
+    <button class="boton claro" data-salirjuego><i class="ti ti-layout-grid"></i>Otros juegos</button></div></div></div>`;
+  if (nuevo || estrellas === 3) { const r = c.getBoundingClientRect(); confeti(r.left + r.width / 2, r.top + 80); }
+}
+
+function iniciarJuego(id) {
+  terminarPartida();
+  const e = E()[TEMA], c = $('#tabc');
+  ({reloj: jReloj, vf: jVF, lluvia: jLluvia, memoria: jMemoria, ordenar: jOrdenar}[id])(e, c);
+  c.scrollIntoView({behavior: reducido() ? 'auto' : 'smooth', block: 'start'});
+}
+
+/* ---- Contrarreloj ---- */
+function jReloj(e, c) {
+  const preguntas = mezclar(banco(e)); let i = 0, pts = 0, vidas = 3, combo = 0, aciertos = 0, bloqueo = false;
+  const DUR = 60, t0 = performance.now();
+  c.innerHTML = `<div class="arena">${hud(corazones(3) + '<span class="combo oculto" id="jCombo"></span>')}
+    <div class="tiempo" id="jT"><i style="width:100%"></i></div><div id="jQ"></div></div>`;
+  const arena = $('.arena', c);
+  const pintar = () => {
+    const q = preguntas[i % preguntas.length], orden = mezclar(q.ops.map((_, k) => k));
+    $('#jQ').innerHTML = `<p class="preg-j">${esc(q.q)}</p><div class="ops">${orden.map((k, n) => `<button class="op" data-rr="${k}"><span class="l">${'ABCD'[n]}</span>${esc(q.ops[k])}</button>`).join('')}</div>`;
+  };
+  const fin = motivo => {
+    terminarPartida();
+    const nuevo = guardarRecord('reloj', pts);
+    pantallaFin(c, {titulo: motivo, grande: `${pts} pts`, sub: `${aciertos} ${aciertos === 1 ? 'acierto' : 'aciertos'} · mejor racha de la partida: x${Math.min(5, PARTIDA?.mejor || 0) || 1}`, nuevo, juego: 'reloj'});
+  };
+  let mejor = 0;
+  const loop = setInterval(() => {
+    const rest = DUR - (performance.now() - t0) / 1000;
+    const b = $('#jT'); if (!b) return clearInterval(loop);
+    b.firstElementChild.style.width = Math.max(0, rest / DUR * 100) + '%'; b.classList.toggle('poco', rest < 10);
+    if (rest <= 0) fin('¡Se acabó el tiempo!');
+  }, 100);
+  PARTIDA = {parar: () => clearInterval(loop), get mejor() { return mejor; }};
+  arena.onclick = ev => {
+    const b = ev.target.closest('[data-rr]'); if (!b || bloqueo) return;
+    const q = preguntas[i % preguntas.length], ok = +b.dataset.rr === q.ok, r = b.getBoundingClientRect(), ra = arena.getBoundingClientRect();
+    if (ok) {
+      combo++; mejor = Math.max(mejor, combo); aciertos++;
+      const mult = Math.min(5, combo), gana = 10 * mult; pts += gana;
+      b.classList.add('bien'); tono(combo > 2 ? 'combo' : 'bien');
+      flotar(arena, `+${gana}`, r.left - ra.left + r.width / 2 - 20, r.top - ra.top - 10, '#2E8B57');
+      const cb = $('#jCombo'); cb.classList.toggle('oculto', combo < 2); cb.innerHTML = `<i class="ti ti-flame"></i> x${mult}`;
+      $('#jPts').textContent = pts; bloqueo = true; setTimeout(() => { bloqueo = false; i++; pintar(); }, 380);
+    } else {
+      combo = 0; vidas--; tono('mal'); b.classList.add('mal', 'sacudir');
+      $$('[data-rr]', arena).forEach(x => { if (+x.dataset.rr === q.ok) x.classList.add('bien'); x.disabled = true; });
+      $('#jCombo').classList.add('oculto'); $('#jVidas').outerHTML = corazones(vidas);
+      bloqueo = true;
+      setTimeout(() => { bloqueo = false; if (vidas <= 0) fin('Sin vidas'); else { i++; pintar(); } }, 1300);
+    }
+  };
+  pintar();
+}
+
+/* ---- Verdadero o falso (deslizar) ---- */
+function jVF(e, c) {
+  const mazo = mezclar(afirmaciones(e)).slice(0, 12); let i = 0, bien = 0, racha = 0;
+  c.innerHTML = `<div class="arena">${hud(`<span class="sub" style="margin:0" id="jN">1 / ${mazo.length}</span>`)}
+    <div class="mazo" id="jMazo"></div>
+    <div class="botones-vf"><button class="no" data-vf="0" aria-label="Falso"><i class="ti ti-x"></i></button><button class="si" data-vf="1" aria-label="Verdadero"><i class="ti ti-check"></i></button></div>
+    <div class="nota-vf" id="jNota">Desliza o toca un botón</div></div>`;
+  const arena = $('.arena', c);
+  const carta = k => { const a = mazo[k]; return a ? `<div class="vf ${k > i ? 'atras' : ''}" data-k="${k}"><span class="sello-v sv">VERDAD</span><span class="sello-v sf">FALSO</span>
+    <div class="a">${esc(a.a)}</div><div class="flecha">es / significa</div><div class="b">${esc(a.b)}</div></div>` : ''; };
+  const pintar = () => { $('#jMazo').innerHTML = carta(i + 1) + carta(i); $('#jN').textContent = `${i + 1} / ${mazo.length}`; activar(); };
+  const decidir = (dice, el) => {
+    const a = mazo[i], ok = dice === a.v; el = el || $('.vf:not(.atras)', arena);
+    el.style.transform = `translateX(${dice ? 520 : -520}px) rotate(${dice ? 24 : -24}deg)`; el.style.opacity = 0;
+    if (ok) { bien++; racha++; tono(racha > 2 ? 'combo' : 'bien'); $('#jPts').textContent = bien; $('#jNota').innerHTML = `<b style="color:var(--ok)"><i class="ti ti-check"></i> ¡Bien!</b>${racha > 2 ? ` Racha de ${racha} 🔥` : ''}`; }
+    else { racha = 0; tono('mal'); $('#jNota').innerHTML = `<b style="color:var(--mal)">Era ${a.v ? 'verdad' : 'falso'}.</b> ${a.v ? '' : `«${esc(a.a)}» es ${esc(a.real)}.`}`; }
+    setTimeout(() => { i++; if (i >= mazo.length) {
+      terminarPartida(); const nuevo = guardarRecord('vf', bien), est = bien >= mazo.length - 1 ? 3 : bien >= mazo.length * .7 ? 2 : bien >= mazo.length * .4 ? 1 : 0;
+      pantallaFin(c, {titulo: 'Mazo terminado', grande: `${bien} / ${mazo.length}`, estrellas: est, sub: est === 3 ? '¡Dominas este tema!' : 'Vuelve a jugar para ganar las 3 estrellas.', nuevo, juego: 'vf'}); }
+      else pintar(); }, ok ? 320 : 1500);
+  };
+  function activar() {
+    const el = $('.vf:not(.atras)', arena); if (!el) return;
+    let x0 = null, dx = 0;
+    el.onpointerdown = ev => { x0 = ev.clientX; el.setPointerCapture(ev.pointerId); el.style.transition = 'none'; };
+    el.onpointermove = ev => { if (x0 === null) return; dx = ev.clientX - x0; el.style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`;
+      el.querySelector('.sv').style.opacity = Math.max(0, dx / 110); el.querySelector('.sf').style.opacity = Math.max(0, -dx / 110); };
+    el.onpointerup = () => { if (x0 === null) return; x0 = null; el.style.transition = '';
+      if (Math.abs(dx) > 90) decidir(dx > 0, el); else { el.style.transform = ''; el.querySelectorAll('.sello-v').forEach(s => s.style.opacity = 0); } dx = 0; };
   }
-  if (j.clasificar && (!solo || solo === 'clasificar')) {
-    const cont = $('#jClasificar'), C = j.clasificar; let sel = null, ok = 0, errores = 0;
-    cont.querySelector('.res').innerHTML = '';
-    cont.querySelector('.sueltos').innerHTML = mezclar(C.items).map(([tx, g]) => `<button class="item-c" data-g="${esc(g)}" aria-pressed="false">${esc(tx)}</button>`).join('');
-    cont.querySelector('.cubetas').innerHTML = C.grupos.map(g => `<button class="cubeta" data-cub="${esc(g)}"><b>${esc(g)}</b></button>`).join('');
-    cont.onclick = ev => {
-      const it = ev.target.closest('.item-c'), cu = ev.target.closest('.cubeta');
-      if (it) { $$('.item-c', cont).forEach(x => x.setAttribute('aria-pressed', x === it)); sel = it; return; }
-      if (cu && sel) {
-        if (sel.dataset.g === cu.dataset.cub) { cu.insertAdjacentHTML('beforeend', `<span class="puesto">${esc(sel.textContent)}</span>`); sel.remove(); sel = null; ok++;
-          if (ok === C.items.length) ganar(cont, errores ? `Lo terminaste con ${errores} ${errores === 1 ? 'error' : 'errores'}.` : 'Sin un solo error.'); }
-        else { errores++; cu.classList.add('sacudir'); setTimeout(() => cu.classList.remove('sacudir'), 400); toast(`«${sel.textContent}» no va en ${cu.dataset.cub}`); }
-      } else if (cu) toast('Primero toca una tarjeta');
-    };
-  }
-  if (j.ordenar && (!solo || solo === 'ordenar')) {
-    const cont = $('#jOrdenar'), P = j.ordenar.pasos; let sig = 0;
-    cont.querySelector('.res').innerHTML = '';
-    cont.querySelector('.orden-l').innerHTML = mezclar(P.map((p, i) => ({p, i}))).map(x => `<button class="paso-o" data-i="${x.i}"><span class="nn">?</span>${esc(x.p)}</button>`).join('');
-    cont.querySelector('.orden-l').onclick = ev => {
-      const b = ev.target.closest('.paso-o'); if (!b || b.classList.contains('hecho')) return;
-      if (+b.dataset.i === sig) { b.classList.add('hecho'); b.querySelector('.nn').textContent = ++sig; if (sig === P.length) ganar(cont, 'Ordenaste todos los pasos.'); }
-      else { b.classList.add('sacudir'); setTimeout(() => b.classList.remove('sacudir'), 400); toast(sig === 0 ? '¿Cuál va primero?' : `Después de «${P[sig - 1]}», ¿qué sigue?`); }
-    };
-  }
+  arena.onclick = ev => { const b = ev.target.closest('[data-vf]'); if (b && $('.vf:not(.atras)', arena)?.style.opacity !== '0') decidir(b.dataset.vf === '1'); };
+  PARTIDA = {parar: () => {}};
+  pintar();
+}
+
+/* ---- Lluvia de conceptos ---- */
+function jLluvia(e, c) {
+  const C = e.juegos.clasificar, items = mezclar([...C.items, ...mezclar(C.items)]);
+  let vivos = [], sig = 0, pts = 0, vidas = 3, combo = 0, ultimo = 0, raf = 0, terminado = false;
+  c.innerHTML = `<div class="arena">${hud(corazones(3))}<p class="sub" style="margin:8px 2px 0">${esc(C.titulo)} · toca el grupo de la tarjeta marcada</p>
+    <div class="cielo" id="jCielo"><div class="suelo"></div></div>
+    <div class="cubos">${C.grupos.map(g => `<button data-cubo="${esc(g)}">${esc(g)}</button>`).join('')}</div></div>`;
+  const arena = $('.arena', c), cielo = $('#jCielo'), H = cielo.clientHeight, W = cielo.clientWidth;
+  const t0 = performance.now();
+  const nuevo = ahora => {
+    if (sig >= items.length) return;
+    const [tx, g] = items[sig], el = document.createElement('div');
+    el.className = 'gota'; el.textContent = tx; cielo.appendChild(el);
+    const x = 10 + ((sig * 97) % 100) / 100 * Math.max(10, W - el.offsetWidth - 20);
+    const vel = (H + 40) / Math.max(3.2, 7 - sig * .18);   // px por segundo: cada vez más rápido
+    vivos.push({el, g, x, y: -50, vel, t: ahora}); sig++;
+  };
+  const marcar = () => { vivos.forEach(v => v.el.classList.remove('activa')); const a = activa(); a && a.el.classList.add('activa'); };
+  const activa = () => vivos.reduce((m, v) => !m || v.y > m.y ? v : m, null);
+  const perder = v => { vidas--; combo = 0; tono('mal'); v.el.classList.add('mal'); $('#jVidas').outerHTML = corazones(vidas);
+    flotar(arena, '−1', v.x + 20, v.y + 40, '#C2414E'); setTimeout(() => v.el.remove(), 500); vivos = vivos.filter(x => x !== v);
+    if (vidas <= 0) acabar('Sin vidas'); };
+  const acabar = motivo => { if (terminado) return; terminado = true; terminarPartida(); const nuevoR = guardarRecord('lluvia', pts);
+    pantallaFin(c, {titulo: motivo, grande: `${pts} pts`, sub: `Clasificaste ${Math.round(pts / 10)} tarjetas.`, nuevo: nuevoR, juego: 'lluvia'}); };
+  let previo = t0;
+  const paso = ahora => {
+    if (terminado || !document.body.contains(cielo)) return;
+    const intervalo = Math.max(1100, 2300 - sig * 60);
+    if (ahora - ultimo > intervalo && sig < items.length) { nuevo(ahora); ultimo = ahora; marcar(); }
+    for (const v of [...vivos]) { v.y = -50 + v.vel * (ahora - v.t) / 1000; v.el.style.transform = `translate(${v.x}px,${v.y}px)`; if (v.y > H - 40) { perder(v); marcar(); } }
+    if (sig >= items.length && !vivos.length) return acabar('¡Terminaste la lluvia!');
+    raf = requestAnimationFrame(paso);
+  };
+  PARTIDA = {parar: () => cancelAnimationFrame(raf)};
+  arena.onclick = ev => {
+    const b = ev.target.closest('[data-cubo]'); if (!b || terminado) return;
+    const v = activa(); if (!v) return;
+    if (v.g === b.dataset.cubo) {
+      combo++; const gana = 10; pts += gana; tono(combo > 2 ? 'combo' : 'bien');
+      v.el.classList.add('bien'); v.el.style.transform += ' scale(1.15)'; flotar(arena, `+${gana}`, v.x + 30, v.y + 40, '#2E8B57');
+      vivos = vivos.filter(x => x !== v); setTimeout(() => v.el.remove(), 400); $('#jPts').textContent = pts;
+    } else { b.classList.add('sacudir'); setTimeout(() => b.classList.remove('sacudir'), 400); toast(`«${v.el.textContent}» no es ${b.dataset.cubo}`); perder(v); }
+    marcar();
+  };
+  raf = requestAnimationFrame(paso);
+}
+
+/* ---- Memoria ---- */
+function jMemoria(e, c) {
+  const P = e.juegos.parejas; let abiertas = [], mov = 0, hechas = 0, t0 = performance.now();
+  const fichas = mezclar(P.flatMap((p, i) => [{tx: p[0], i}, {tx: p[1], i}]));
+  c.innerHTML = `<div class="arena">${hud('<span class="sub" style="margin:0" id="jMov">0 movimientos</span><span class="sub" style="margin:0" id="jSeg">0 s</span>')}
+    <div class="tablero">${fichas.map(f => `<button class="ficha-j" data-par="${f.i}" aria-label="Ficha oculta"><span class="cara tapa">?</span><span class="cara frente">${esc(f.tx)}</span></button>`).join('')}</div></div>`;
+  const arena = $('.arena', c);
+  $('#jPts').textContent = `0/${P.length}`;
+  const reloj = setInterval(() => { const s = $('#jSeg'); if (!s) return clearInterval(reloj); s.textContent = Math.floor((performance.now() - t0) / 1000) + ' s'; }, 500);
+  PARTIDA = {parar: () => clearInterval(reloj)};
+  arena.onclick = ev => {
+    const b = ev.target.closest('.ficha-j'); if (!b || b.classList.contains('vista') || b.classList.contains('par') || abiertas.length === 2) return;
+    b.classList.add('vista'); b.setAttribute('aria-label', b.textContent.replace('?', '')); abiertas.push(b); tono('tic');
+    if (abiertas.length < 2) return;
+    mov++; $('#jMov').textContent = `${mov} movimientos`;
+    const [x, y] = abiertas;
+    if (x.dataset.par === y.dataset.par) setTimeout(() => {
+      x.classList.replace('vista', 'par'); y.classList.replace('vista', 'par'); abiertas = []; hechas++; tono('bien'); $('#jPts').textContent = `${hechas}/${P.length}`;
+      if (hechas === P.length) { terminarPartida(); const s = Math.floor((performance.now() - t0) / 1000), nuevo = guardarRecord('memoria', mov, false);
+        const est = mov <= P.length + 2 ? 3 : mov <= P.length * 2 ? 2 : 1;
+        setTimeout(() => pantallaFin(c, {titulo: '¡Encontraste todas!', grande: `${mov} mov.`, estrellas: est, sub: `En ${s} segundos.`, nuevo, juego: 'memoria'}), 600); }
+    }, 450);
+    else setTimeout(() => { x.classList.remove('vista'); y.classList.remove('vista'); abiertas = []; }, 950);
+  };
+}
+
+/* ---- Ordenar ---- */
+function jOrdenar(e, c) {
+  const O = e.juegos.ordenar, P = O.pasos; let sig = 0, errores = 0, t0 = performance.now();
+  c.innerHTML = `<div class="arena">${hud('<span class="sub" style="margin:0" id="jSeg">0 s</span>')}<p class="preg-j" style="min-height:0">${esc(O.titulo)}</p>
+    <div class="orden-l">${mezclar(P.map((p, i) => ({p, i}))).map(x => `<button class="paso-o" data-i="${x.i}"><span class="nn">?</span>${esc(x.p)}</button>`).join('')}</div></div>`;
+  const arena = $('.arena', c);
+  $('#jPts').textContent = `0/${P.length}`;
+  const reloj = setInterval(() => { const s = $('#jSeg'); if (!s) return clearInterval(reloj); s.textContent = ((performance.now() - t0) / 1000).toFixed(1) + ' s'; }, 100);
+  PARTIDA = {parar: () => clearInterval(reloj)};
+  arena.onclick = ev => {
+    const b = ev.target.closest('.paso-o'); if (!b || b.classList.contains('hecho')) return;
+    if (+b.dataset.i === sig) {
+      b.classList.add('hecho'); b.querySelector('.nn').textContent = ++sig; tono('bien'); $('#jPts').textContent = `${sig}/${P.length}`;
+      b.parentElement.insertBefore(b, $$('.paso-o:not(.hecho)', arena)[0] || null);
+      if (sig === P.length) { terminarPartida(); const s = Math.round((performance.now() - t0) / 100) / 10, nuevo = guardarRecord('ordenar', s, false);
+        const est = errores === 0 ? 3 : errores <= 2 ? 2 : 1;
+        setTimeout(() => pantallaFin(c, {titulo: '¡Todo en orden!', grande: `${s} s`, estrellas: est, sub: errores ? `Con ${errores} ${errores === 1 ? 'error' : 'errores'}.` : 'Sin un solo error.', nuevo, juego: 'ordenar'}), 400); }
+    } else { errores++; tono('mal'); b.classList.add('sacudir'); setTimeout(() => b.classList.remove('sacudir'), 400); toast(sig === 0 ? '¿Cuál va primero?' : `Después de «${P[sig - 1]}», ¿qué sigue?`); }
+  };
 }
 
 /* Examen */
@@ -864,7 +1102,7 @@ document.addEventListener('click', e => {
   if (d.ver) return ver(d.ver);
   if (d.bajar) return bajar(d.bajar);
   if (d.act) return abrirAct(d.act, d.pest || 'repaso');
-  if (d.ttab) { TAB = d.ttab; return pintarTab(); }
+  if (d.ttab) { terminarPartida(); TAB = d.ttab; return pintarTab(); }
   if (d.lec) { LEC = +d.lec; pintarTab(); return $('.cab-tema').scrollIntoView({behavior: reducido() ? 'auto' : 'smooth'}); }
   if (d.seg) { const v = $('#vid'); if (v) { v.currentTime = +d.seg; v.play(); } return; }
   if (d.op !== undefined) {
@@ -873,7 +1111,9 @@ document.addEventListener('click', e => {
     if (!ok) el.classList.add('mal');
     return feedback(art, ok, x, ok ? '' : `La correcta es la ${'ABCD'[x.correcta]}.`);
   }
-  if (d.reinicia) return iniciarJuegos(E()[TEMA], d.reinicia);
+  if (d.juego) return iniciarJuego(d.juego);
+  if ('salirjuego' in d) { terminarPartida(); return pintarTab(); }
+  if ('sonido' in d) { SONIDO = !SONIDO; guardar('sonido', SONIDO ? '1' : '0'); if (SONIDO) tono('bien'); return pintarTab(); }
   if (d.extema) { el.setAttribute('aria-pressed', el.getAttribute('aria-pressed') !== 'true'); return; }
   if (d.excant) { $$('[data-excant]').forEach(b => b.setAttribute('aria-pressed', b === el)); return; }
   if ('exempezar' in d) return empezarExamen();
