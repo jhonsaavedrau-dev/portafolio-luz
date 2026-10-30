@@ -175,6 +175,19 @@ input:focus{outline:none;border-color:var(--accion)}
 .pr-lado{background:#FCEDEF;color:#5E1D25}
 .pr-caja b,.pr-lado b{display:block;font-family:var(--mono);font-size:15px;margin-top:3px}
 .pr-caja small,.pr-lado small{display:block;font-size:12.5px;color:var(--suave);margin-top:4px;line-height:1.35}
+.pico{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:16px 0 4px}
+.pc{border:2px solid var(--linea);border-radius:14px;padding:11px;background:var(--papel);transition:opacity .2s}
+.pico.foco .pc:not(.on){opacity:.4}
+.pc.on{border-color:var(--pc);box-shadow:0 0 0 3px color-mix(in srgb,var(--pc) 18%,transparent)}
+.pc-cab{display:flex;gap:9px;align-items:center}
+.pc-cab b{display:block;font-size:13.5px;line-height:1.15}
+.pc-cab span{min-width:0}
+.pc-cab small{display:block;font-size:12px;color:var(--suave);margin-top:1px}
+.pc-l{flex:none;width:34px;height:34px;border-radius:10px;background:var(--pc);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:19px}
+.pc-p{font-size:12.5px;color:var(--suave);margin:8px 0 6px;line-height:1.35}
+.pc-v{font-size:14.5px;font-weight:700;color:var(--pc)}
+.pc-kw{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.pc-kw span{font-size:12.5px;background:color-mix(in srgb,var(--pc) 12%,#fff);color:var(--pc);border-radius:8px;padding:3px 7px;font-weight:600}
 .pr-mot{grid-column:1/-1;background:#FCEDEF;color:#5E1D25;border-radius:12px;padding:9px 11px;margin-top:6px;font-size:13.5px;line-height:1.35;display:flex;flex-direction:column;gap:3px}
 .pr-mot b{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#9A2B37}
 .pr-fl,.pr-baja{display:grid;place-items:center;color:var(--c);font-size:17px}
@@ -413,7 +426,7 @@ nav.abajo button[aria-current=page]{background:#fff;color:var(--tinta)}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const SAL = "A807s3xsZKVRAqBmQeFJyg==", ITER = 250000, ACTUALIZADO = "2026-10-29T2039";
+const SAL = "A807s3xsZKVRAqBmQeFJyg==", ITER = 250000, ACTUALIZADO = "2026-10-29T2056";
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -655,6 +668,7 @@ function htmlLeccion(e, t) {
     <h2>${esc(L.t)}</h2>
     <div class="exp">${L.explicacion.map(p => `<p>${esc(p)}</p>`).join('')}</div>
     ${L.diagrama ? htmlPrisma(L.diagrama) : ''}
+    ${L.pico ? htmlPico(L.pico) : ''}
     ${L.formula ? `<div class="caja formula"><div class="et"><i class="ti ti-math-function"></i>Fórmula</div>${esc(L.formula)}</div>` : ''}
     ${L.ejemplo ? `<div class="caja ejemplo"><div class="et"><i class="ti ti-bulb"></i>Ejemplo</div>${esc(L.ejemplo)}</div>` : ''}
     ${L.python ? `<pre class="py"><span class="et">En Python</span>${esc(L.python)}</pre>` : ''}
@@ -662,6 +676,7 @@ function htmlLeccion(e, t) {
     <div class="nav-l">
       ${LEC > 0 ? `<button class="boton claro" data-lec="${LEC - 1}"><i class="ti ti-arrow-left"></i>Anterior</button>` : ''}
       ${LEC < e.lecciones.length - 1 ? `<button class="boton c" data-lec="${LEC + 1}">Siguiente<i class="ti ti-arrow-right"></i></button>`
+        : (D.videos || {})[t.id] ? `<button class="boton c" data-ttab="video">Ver el video<i class="ti ti-player-play"></i></button>`
         : `<button class="boton c" data-ttab="practica">A practicar<i class="ti ti-pencil"></i></button>`}
     </div></article>`;
 }
@@ -678,12 +693,21 @@ function htmlPrisma(d) {
       </div>`; }).join('<span class="pr-baja" aria-hidden="true"><i class="ti ti-arrow-down"></i></span>')}</div>`).join('<span class="pr-baja" aria-hidden="true"><i class="ti ti-arrow-down"></i></span>')}
   </figure>`;
 }
+/* Tarjetas PICO: una por letra; foco resalta una, kw muestra las palabras clave */
+const PICO_COL = {P: '#1F5F8B', I: '#6A4C93', C: '#8A6111', O: '#2E7D4F'};
+function htmlPico(d) {
+  return `<div class="pico${d.foco !== null && d.foco !== undefined ? ' foco' : ''}">${d.items.map((x, i) => `
+    <div class="pc${i === d.foco ? ' on' : ''}" style="--pc:${PICO_COL[x.l]}"><div class="pc-cab"><span class="pc-l">${x.l}</span><span><b>${esc(x.nombre)}</b><small>${esc(x.sub)}</small></span></div>
+      ${d.kw ? `<div class="pc-kw">${x.kw.map(k => `<span>${esc(k)}</span>`).join('')}</div>`
+        : `<p class="pc-p">${esc(x.preg)}</p><div class="pc-v">${esc(x.valor)}</div>`}</div>`).join('')}</div>`;
+}
 function htmlVideo(t) {
   const v = (D.videos || {})[t.id];
   if (!v) return '<div class="vacio"><i class="ti ti-movie" style="font-size:34px"></i><br>El video de este tema está en preparación.</div>';
   return `<div class="video"><video id="vid" controls playsinline preload="metadata" poster="${esc(v.poster || '')}" src="${esc(v.src)}"></video></div>
     ${v.capitulos?.length ? `<div class="capitulos">${v.capitulos.map(c => `<button data-seg="${c.s}"><span>${Math.floor(c.s / 60)}:${String(Math.round(c.s % 60)).padStart(2, '0')}</span>${esc(c.t)}</button>`).join('')}</div>` : ''}
-    <p class="sub" style="margin:12px 4px">Mira el video y después prueba la pestaña Practica.</p>`;
+    <div class="nav-l"><button class="boton claro" data-ttab="aprende"><i class="ti ti-arrow-left"></i>Lecciones</button>
+      <button class="boton c" data-ttab="practica">A practicar<i class="ti ti-pencil"></i></button></div>`;
 }
 
 /* Práctica */
