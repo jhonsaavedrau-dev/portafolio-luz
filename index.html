@@ -165,7 +165,23 @@ input:focus{outline:none;border-color:var(--accion)}
 .leccion .exp p{margin-bottom:12px;font-size:16.5px}
 .caja{border-radius:14px;padding:14px 16px;margin-top:12px;font-size:15px}
 .caja .et{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.caja.formula{background:var(--cs);font-family:var(--mono);font-size:15px;color:var(--tinta)}
+.caja.formula{background:var(--cs);font-family:var(--mono);font-size:15px;color:var(--tinta);white-space:pre-line}
+.prisma{margin:16px 0 4px;display:flex;flex-direction:column}
+.pr-fase{background:var(--cs);border-radius:16px;padding:10px 10px 12px}
+.pr-et{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin:2px 0 8px 4px}
+.pr-fila{display:grid;grid-template-columns:1fr 20px 1fr;align-items:center;gap:4px;transition:opacity .2s}
+.pr-fila.solo{grid-template-columns:1fr}
+.pr-caja,.pr-lado{background:var(--papel);border-radius:12px;padding:9px 11px;font-size:14px;line-height:1.3;border:2px solid transparent}
+.pr-lado{background:#FCEDEF;color:#5E1D25}
+.pr-caja b,.pr-lado b{display:block;font-family:var(--mono);font-size:15px;margin-top:3px}
+.pr-caja small,.pr-lado small{display:block;font-size:12.5px;color:var(--suave);margin-top:4px;line-height:1.35}
+.pr-mot{grid-column:1/-1;background:#FCEDEF;color:#5E1D25;border-radius:12px;padding:9px 11px;margin-top:6px;font-size:13.5px;line-height:1.35;display:flex;flex-direction:column;gap:3px}
+.pr-mot b{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#9A2B37}
+.pr-fl,.pr-baja{display:grid;place-items:center;color:var(--c);font-size:17px}
+.pr-baja{height:24px}
+.prisma.foco .pr-fila:not(.on){opacity:.42}
+.pr-fila.on .pr-caja{border-color:var(--c)}
+.pr-fila.on .pr-lado{border-color:#C2414E}
 .caja.formula .et{font-family:var(--cuerpo);color:var(--c)}
 .caja.ejemplo{background:#EEF7F1}
 .caja.ejemplo .et{color:#1F6B42}
@@ -397,7 +413,7 @@ nav.abajo button[aria-current=page]{background:#fff;color:var(--tinta)}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const SAL = "A807s3xsZKVRAqBmQeFJyg==", ITER = 250000, ACTUALIZADO = "2026-10-18T1848";
+const SAL = "A807s3xsZKVRAqBmQeFJyg==", ITER = 250000, ACTUALIZADO = "2026-10-29T2039";
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -638,6 +654,7 @@ function htmlLeccion(e, t) {
     <div class="eyebrow" style="color:var(--c)">Lección ${LEC + 1} de ${e.lecciones.length}</div>
     <h2>${esc(L.t)}</h2>
     <div class="exp">${L.explicacion.map(p => `<p>${esc(p)}</p>`).join('')}</div>
+    ${L.diagrama ? htmlPrisma(L.diagrama) : ''}
     ${L.formula ? `<div class="caja formula"><div class="et"><i class="ti ti-math-function"></i>Fórmula</div>${esc(L.formula)}</div>` : ''}
     ${L.ejemplo ? `<div class="caja ejemplo"><div class="et"><i class="ti ti-bulb"></i>Ejemplo</div>${esc(L.ejemplo)}</div>` : ''}
     ${L.python ? `<pre class="py"><span class="et">En Python</span>${esc(L.python)}</pre>` : ''}
@@ -647,6 +664,19 @@ function htmlLeccion(e, t) {
       ${LEC < e.lecciones.length - 1 ? `<button class="boton c" data-lec="${LEC + 1}">Siguiente<i class="ti ti-arrow-right"></i></button>`
         : `<button class="boton c" data-ttab="practica">A practicar<i class="ti ti-pencil"></i></button>`}
     </div></article>`;
+}
+/* Diagrama PRISMA: cajas del centro (lo que queda) y de la derecha (lo que sale) */
+function htmlPrisma(d) {
+  let k = -1;
+  const nro = n => `<b>n = ${n.toLocaleString('es')}</b>`;
+  return `<figure class="prisma${d.foco !== null && d.foco !== undefined ? ' foco' : ''}" aria-label="Diagrama PRISMA del ejemplo">
+    ${d.fases.map(f => `<div class="pr-fase"><span class="pr-et">${esc(f.fase)}</span>${f.filas.map(r => { k++;
+      return `<div class="pr-fila${r.lado ? '' : ' solo'}${k === d.foco ? ' on' : ''}">
+        <div class="pr-caja">${esc(r.caja)}${nro(r.n)}${r.detalle ? `<small>${r.detalle.map(esc).join('<br>')}</small>` : ''}</div>
+        ${r.lado ? `<span class="pr-fl" aria-hidden="true"><i class="ti ti-arrow-right"></i></span><div class="pr-lado">${esc(r.lado)}${nro(r.nl)}</div>` : ''}
+        ${r.motivos ? `<div class="pr-mot"><b>Motivos de exclusión</b>${r.motivos.map(m => `<span>${esc(m)}</span>`).join('')}</div>` : ''}
+      </div>`; }).join('<span class="pr-baja" aria-hidden="true"><i class="ti ti-arrow-down"></i></span>')}</div>`).join('<span class="pr-baja" aria-hidden="true"><i class="ti ti-arrow-down"></i></span>')}
+  </figure>`;
 }
 function htmlVideo(t) {
   const v = (D.videos || {})[t.id];
